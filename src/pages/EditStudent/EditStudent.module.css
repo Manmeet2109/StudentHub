@@ -16,3 +16,13 @@
   color: #dc2626;
   font-size: 0.85rem;
 }
+
+.buttonRow {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.cancelButton {
+  /* Currently shares the default button appearance.
+     Dedicated class reserved for future styling (e.g. secondary/outline style). */
+}

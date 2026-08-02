@@ -3,6 +3,18 @@ import Card from "../common/Card";
 import styles from "./StudentCard.module.css";
 
 function StudentCard({ student, onDelete }) {
+  function handleDeleteClick() {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${student.name}"?\nThis action cannot be undone.`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    onDelete(student.id);
+  }
+
   return (
     <Card>
       <h3 className={styles.name}>{student.name}</h3>
@@ -15,7 +27,7 @@ function StudentCard({ student, onDelete }) {
         <button
           type="button"
           className={styles.deleteButton}
-          onClick={() => onDelete(student.id)}
+          onClick={handleDeleteClick}
         >
           Delete
         </button>

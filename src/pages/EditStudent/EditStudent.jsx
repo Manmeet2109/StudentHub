@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useStudents } from "../../context/StudentContext";
 import { validateStudent } from "../../utils/validateStudent";
@@ -6,21 +6,33 @@ import styles from "./EditStudent.module.css";
 
 function EditStudent() {
   const { id } = useParams();
+  const studentId = Number(id);
   const { students, updateStudent } = useStudents();
   const navigate = useNavigate();
 
-  const student = students.find((s) => s.id === Number(id));
+  const student = students.find((s) => s.id === studentId);
 
-  const [name, setName] = useState(student ? student.name : "");
-  const [rollNumber, setRollNumber] = useState(student ? student.rollNumber : "");
-  const [grade, setGrade] = useState(student ? student.grade : "");
+  const [name, setName] = useState("");
+  const [rollNumber, setRollNumber] = useState("");
+  const [grade, setGrade] = useState("");
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (student) {
+      setName(student.name);
+      setRollNumber(student.rollNumber);
+      setGrade(student.grade);
+    }
+  }, [student]);
 
   if (!student) {
     return (
       <div>
         <h2>Student Not Found</h2>
         <p>No student matches this id.</p>
+        <button type="button" onClick={() => navigate("/students")}>
+          Back to Students
+        </button>
       </div>
     );
   }
@@ -31,7 +43,7 @@ function EditStudent() {
     const validationErrors = validateStudent(
       { name, rollNumber, grade },
       students,
-      student.id
+      studentId
     );
     setErrors(validationErrors);
 
@@ -40,11 +52,15 @@ function EditStudent() {
     }
 
     updateStudent({
-      id: student.id,
+      id: studentId,
       name: name.trim(),
       rollNumber: rollNumber.trim(),
       grade,
     });
+    navigate("/students");
+  }
+
+  function handleCancel() {
     navigate("/students");
   }
 
@@ -89,8 +105,13 @@ function EditStudent() {
           </select>
           {errors.grade && <p className={styles.error}>{errors.grade}</p>}
         </div>
-
-        <button type="submit">Save Changes</button>
+           <div className={styles.buttonRow}>
+          <button type="submit">Save Changes</button>
+          <button type="button" className={styles.cancelButton} onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+        
       </form>
     </div>
   );
