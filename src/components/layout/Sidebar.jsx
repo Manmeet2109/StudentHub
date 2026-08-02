@@ -2,19 +2,17 @@ import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <aside>
-      <nav>
-        <ul>
-          <li>
-            <NavLink to="/">Dashboard</NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/students">Students</NavLink>
-          </li>
-        </ul>
-      </nav>
-    </aside>
+    <nav className="sidebar">
+      <NavLink to="/" end>
+        Dashboard
+      </NavLink>
+      <NavLink to="/students">
+        Students
+      </NavLink>
+      <NavLink to="/students/add">
+        Add Student
+      </NavLink>
+    </nav>
   );
 }
 
