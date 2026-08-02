@@ -1,0 +1,22 @@
+/* Reset browser defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global design tokens */
+:root {
+  --color-bg: #f9fafb;
+  --color-text: #1f2937;
+  --color-primary: #2563eb;
+
+  --font-family-base: "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
