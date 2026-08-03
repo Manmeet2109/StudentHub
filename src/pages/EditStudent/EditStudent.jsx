@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useStudents } from "../../context/StudentContext";
 import { validateStudent } from "../../utils/validateStudent";
+import { GRADES } from "../../constants/grades";
 import styles from "./EditStudent.module.css";
 
 function EditStudent() {
@@ -27,10 +28,14 @@ function EditStudent() {
 
   if (!student) {
     return (
-      <div>
+      <div className="page">
         <h2>Student Not Found</h2>
         <p>No student matches this id.</p>
-        <button type="button" onClick={() => navigate("/students")}>
+        <button
+          type="button"
+          className={styles.primaryButton}
+          onClick={() => navigate("/students")}
+        >
           Back to Students
         </button>
       </div>
@@ -65,9 +70,9 @@ function EditStudent() {
   }
 
   return (
-    <div>
+    <div className="page">
       <h2>Edit Student</h2>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <div className={styles.field}>
           <label htmlFor="name">Name</label>
           <input
@@ -75,8 +80,14 @@ function EditStudent() {
             type="text"
             value={name}
             onChange={(event) => setName(event.target.value)}
+            aria-describedby={errors.name ? "name-error" : undefined}
+            aria-invalid={Boolean(errors.name)}
           />
-          {errors.name && <p className={styles.error}>{errors.name}</p>}
+          {errors.name && (
+            <p id="name-error" className={styles.error} role="alert">
+              {errors.name}
+            </p>
+          )}
         </div>
 
         <div className={styles.field}>
@@ -86,8 +97,14 @@ function EditStudent() {
             type="text"
             value={rollNumber}
             onChange={(event) => setRollNumber(event.target.value)}
+            aria-describedby={errors.rollNumber ? "rollNumber-error" : undefined}
+            aria-invalid={Boolean(errors.rollNumber)}
           />
-          {errors.rollNumber && <p className={styles.error}>{errors.rollNumber}</p>}
+          {errors.rollNumber && (
+            <p id="rollNumber-error" className={styles.error} role="alert">
+              {errors.rollNumber}
+            </p>
+          )}
         </div>
 
         <div className={styles.field}>
@@ -96,22 +113,31 @@ function EditStudent() {
             id="grade"
             value={grade}
             onChange={(event) => setGrade(event.target.value)}
+            aria-describedby={errors.grade ? "grade-error" : undefined}
+            aria-invalid={Boolean(errors.grade)}
           >
             <option value="">Select a grade</option>
-            <option value="9th">9th</option>
-            <option value="10th">10th</option>
-            <option value="11th">11th</option>
-            <option value="12th">12th</option>
+            {GRADES.map((gradeOption) => (
+              <option key={gradeOption} value={gradeOption}>
+                {gradeOption}
+              </option>
+            ))}
           </select>
-          {errors.grade && <p className={styles.error}>{errors.grade}</p>}
+          {errors.grade && (
+            <p id="grade-error" className={styles.error} role="alert">
+              {errors.grade}
+            </p>
+          )}
         </div>
-           <div className={styles.buttonRow}>
-          <button type="submit">Save Changes</button>
+
+        <div className={styles.buttonRow}>
+          <button type="submit" className={styles.primaryButton}>
+            Save Changes
+          </button>
           <button type="button" className={styles.cancelButton} onClick={handleCancel}>
             Cancel
           </button>
         </div>
-        
       </form>
     </div>
   );

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStudents } from "../../context/StudentContext";
 import { validateStudent } from "../../utils/validateStudent";
+import { GRADES } from "../../constants/grades";
 import styles from "./AddStudent.module.css";
 
 function AddStudent() {
@@ -37,10 +38,14 @@ function AddStudent() {
     navigate("/students");
   }
 
+  function handleCancel() {
+    navigate("/students");
+  }
+
   return (
-    <div>
+    <div className="page">
       <h2>Add Student</h2>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <div className={styles.field}>
           <label htmlFor="name">Name</label>
           <input
@@ -48,8 +53,14 @@ function AddStudent() {
             type="text"
             value={name}
             onChange={(event) => setName(event.target.value)}
+            aria-describedby={errors.name ? "name-error" : undefined}
+            aria-invalid={Boolean(errors.name)}
           />
-          {errors.name && <p className={styles.error}>{errors.name}</p>}
+          {errors.name && (
+            <p id="name-error" className={styles.error} role="alert">
+              {errors.name}
+            </p>
+          )}
         </div>
 
         <div className={styles.field}>
@@ -59,8 +70,14 @@ function AddStudent() {
             type="text"
             value={rollNumber}
             onChange={(event) => setRollNumber(event.target.value)}
+            aria-describedby={errors.rollNumber ? "rollNumber-error" : undefined}
+            aria-invalid={Boolean(errors.rollNumber)}
           />
-          {errors.rollNumber && <p className={styles.error}>{errors.rollNumber}</p>}
+          {errors.rollNumber && (
+            <p id="rollNumber-error" className={styles.error} role="alert">
+              {errors.rollNumber}
+            </p>
+          )}
         </div>
 
         <div className={styles.field}>
@@ -69,17 +86,31 @@ function AddStudent() {
             id="grade"
             value={grade}
             onChange={(event) => setGrade(event.target.value)}
+            aria-describedby={errors.grade ? "grade-error" : undefined}
+            aria-invalid={Boolean(errors.grade)}
           >
             <option value="">Select a grade</option>
-            <option value="9th">9th</option>
-            <option value="10th">10th</option>
-            <option value="11th">11th</option>
-            <option value="12th">12th</option>
+            {GRADES.map((gradeOption) => (
+              <option key={gradeOption} value={gradeOption}>
+                {gradeOption}
+              </option>
+            ))}
           </select>
-          {errors.grade && <p className={styles.error}>{errors.grade}</p>}
+          {errors.grade && (
+            <p id="grade-error" className={styles.error} role="alert">
+              {errors.grade}
+            </p>
+          )}
         </div>
 
-        <button type="submit">Add Student</button>
+        <div className={styles.buttonRow}>
+          <button type="submit" className={styles.primaryButton}>
+            Add Student
+          </button>
+          <button type="button" className={styles.cancelButton} onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
       </form>
     </div>
   );

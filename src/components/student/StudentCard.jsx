@@ -18,18 +18,22 @@ function StudentCard({ student, onDelete }) {
   return (
     <Card>
       <h3 className={styles.name}>{student.name}</h3>
-      <p className={styles.detail}>Roll No: {student.rollNumber}</p>
-      <p className={styles.detail}>Grade: {student.grade}</p>
+      <p className={styles.detail}>
+        <span aria-hidden="true">🪪</span> Roll No: {student.rollNumber}
+      </p>
+      <p className={styles.detail}>
+        <span aria-hidden="true">🎒</span> Grade: {student.grade}
+      </p>
       <div className={styles.actions}>
         <Link to={`/students/edit/${student.id}`} className={styles.editLink}>
-          Edit
+          ✎ Edit
         </Link>
         <button
           type="button"
           className={styles.deleteButton}
           onClick={handleDeleteClick}
         >
-          Delete
+          🗑 Delete
         </button>
       </div>
     </Card>

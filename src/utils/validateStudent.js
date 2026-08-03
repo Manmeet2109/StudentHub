@@ -1,7 +1,6 @@
 // validateStudent.js — pure validation rules for student form data.
 // SRP: no React, no storage, no UI. Input in, errors out.
-
-const ALLOWED_GRADES = ["9th", "10th", "11th", "12th"];
+import { GRADES } from "../constants/grades";
 
 export function validateStudent(
   { name, rollNumber, grade },
@@ -30,7 +29,7 @@ export function validateStudent(
 
   if (!grade) {
     errors.grade = "Please select a grade.";
-  } else if (!ALLOWED_GRADES.includes(grade)) {
+  } else if (!GRADES.includes(grade)) {
     errors.grade = "Please select a valid grade.";
   }
 

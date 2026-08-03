@@ -1,19 +1,20 @@
 .summaryGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
 }
 
 .summaryLabel {
-  font-size: 0.85rem;
-  color: #4b5563;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
   text-align: center;
 }
 
 .summaryValue {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1f2937;
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
   text-align: center;
+  margin-top: var(--space-1);
 }
