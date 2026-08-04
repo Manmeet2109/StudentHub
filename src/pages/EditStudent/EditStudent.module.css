@@ -1,28 +1,16 @@
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 320px;
-  margin-top: 1rem;
+/* EditStudent-specific styles. Shared form styling now lives in
+   StudentForm.module.css. Only the "Student Not Found" screen's
+   button keeps a page-local style, since StudentForm doesn't cover
+   that view. */
+
+.backButton {
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+  border: 1px solid var(--color-primary);
+  padding: var(--space-2) var(--space-4);
+  margin-top: var(--space-3);
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.error {
-  color: #dc2626;
-  font-size: 0.85rem;
-}
-
-.buttonRow {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.cancelButton {
-  /* Currently shares the default button appearance.
-     Dedicated class reserved for future styling (e.g. secondary/outline style). */
+.backButton:hover {
+  background-color: var(--color-primary-hover);
 }
