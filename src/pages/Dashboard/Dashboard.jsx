@@ -4,7 +4,26 @@ import { getGradeBreakdown } from "../../utils/getGradeBreakdown";
 import styles from "./Dashboard.module.css";
 
 function Dashboard() {
-  const { students } = useStudents();
+  const { students, isLoading, error } = useStudents();
+
+  if (isLoading) {
+    return (
+      <div>
+        <h2>Dashboard</h2>
+        <p>Loading dashboard...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <h2>Dashboard</h2>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
   const gradeBreakdown = getGradeBreakdown(students);
 
   return (

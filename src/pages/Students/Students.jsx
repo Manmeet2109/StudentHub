@@ -14,14 +14,31 @@ const SORT_OPTIONS = [
 ];
 
 function Students() {
-  const { students, deleteStudent } = useStudents();
+  const { students, isLoading, error, deleteStudent } = useStudents();
   const [searchText, setSearchText] = useState("");
   const [gradeFilter, setGradeFilter] = useState("");
   const [sortBy, setSortBy] = useState("name-asc");
 
+  if (isLoading) {
+    return (
+      <div className="page">
+        <h2>Students</h2>
+        <p className={styles.statusMessage}>Loading students...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="page">
+        <h2>Students</h2>
+        <p className={styles.statusMessage}>{error}</p>
+      </div>
+    );
+  }
+
   const filteredStudents = filterStudents(students, { searchText, gradeFilter });
   const visibleStudents = sortStudents(filteredStudents, sortBy);
-
   const hasAnyStudents = students.length > 0;
 
   return (
