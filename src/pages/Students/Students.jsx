@@ -2,17 +2,27 @@ import { useState } from "react";
 import StudentCard from "../../components/student/StudentCard";
 import { useStudents } from "../../context/StudentContext";
 import { filterStudents } from "../../utils/filterStudents";
+import { sortStudents } from "../../utils/sortStudents";
 import { GRADES } from "../../constants/grades";
 import styles from "./Students.module.css";
+
+const SORT_OPTIONS = [
+  { value: "name-asc", label: "Name (A–Z)" },
+  { value: "name-desc", label: "Name (Z–A)" },
+  { value: "rollNumber-asc", label: "Roll Number" },
+  { value: "grade-asc", label: "Grade" },
+];
 
 function Students() {
   const { students, deleteStudent } = useStudents();
   const [searchText, setSearchText] = useState("");
   const [gradeFilter, setGradeFilter] = useState("");
+  const [sortBy, setSortBy] = useState("name-asc");
 
   const filteredStudents = filterStudents(students, { searchText, gradeFilter });
+  const visibleStudents = sortStudents(filteredStudents, sortBy);
+
   const hasAnyStudents = students.length > 0;
-  const hasFiltersApplied = searchText.trim() !== "" || gradeFilter !== "";
 
   return (
     <div className="page">
@@ -41,6 +51,18 @@ function Students() {
               </option>
             ))}
           </select>
+          <select
+            value={sortBy}
+            onChange={(event) => setSortBy(event.target.value)}
+            aria-label="Sort students"
+            className={styles.sortSelect}
+          >
+            {SORT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                Sort: {option.label}
+              </option>
+            ))}
+          </select>
         </div>
       )}
 
@@ -52,7 +74,7 @@ function Students() {
             Add your first student to get started.
           </p>
         </div>
-      ) : filteredStudents.length === 0 ? (
+      ) : visibleStudents.length === 0 ? (
         <div className={styles.emptyState}>
           <p className={styles.emptyIcon} aria-hidden="true">🔍</p>
           <p className={styles.emptyTitle}>No matching students</p>
@@ -62,7 +84,7 @@ function Students() {
         </div>
       ) : (
         <div className={styles.grid}>
-          {filteredStudents.map((student) => (
+          {visibleStudents.map((student) => (
             <StudentCard key={student.id} student={student} onDelete={deleteStudent} />
           ))}
         </div>

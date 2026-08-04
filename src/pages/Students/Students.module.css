@@ -10,7 +10,8 @@
   min-width: 200px;
 }
 
-.gradeSelect {
+.gradeSelect,
+.sortSelect {
   min-width: 140px;
 }
 
